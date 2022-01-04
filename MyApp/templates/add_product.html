@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+</head>
+<body>
+    <table>
+        <caption>Add Product</caption>
+        {% if msg %}
+        <p>{{msg}}</p>
+        {% endif %}
+        <tbody>
+            <form action="{% url 'add_product' %}" method="POST">
+                {% csrf_token %}
+                <tr>
+                    <td><label>Product Name</label></td>
+                    <td><input type="text" name="productname" placeholder="Enter product name"></td>
+                </tr>
+                <tr>
+                    <td><label>Product Price</label></td>
+                    <td><input type="text" name="price" placeholder="Enter product price"></td>
+                </tr>
+                <tr>
+                    <td><label>Product Qty</label></td>
+                    <td><input type="text" name="qty" placeholder="Enter product qty"></td>
+                </tr>
+                <tr>
+                    <td><label>Total amount</label></td>
+                    <td><input type="text" name="totalamount" placeholder="Enter total amount"></td>
+                </tr>
+                <tr>
+                    <td><label>Description</label></td>
+                    <td><textarea name="description" cols="30" rows="10" placeholder="Enter description"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Add"></td>
+                </tr>
+            </form>
+        </tbody>
+    </table>
+    
+</body>
+</html>

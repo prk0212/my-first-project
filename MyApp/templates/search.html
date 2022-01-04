@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Page</title>
+<style>
+    .results-card{
+        width: 50%;
+        max-height: 200px;
+        box-shadow: 0 8px 8px 0 rosybrown;
+        transition: 0.5s;
+        border-radius: 7px;
+        padding: 15px 15px;
+    }
+    .not-visible{
+        display: none;
+    }
+</style>
+</head>
+<body>
+        <form id="search-form" autocomplete="off" >
+            {% csrf_token %}
+            <label>Search product</label>
+            <input type="text" name='search'>
+        </form>
+        <div id="result-box " class="results-card not-visible">
+            
+        </div>
+        {% if result %}
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+            
+            {% for i in result %}
+            <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.price}}</td>
+                <td>{{i.description}}</td>
+            </tr>
+            {% endfor %}
+
+
+        </table>
+        {% endif %}
+        <br/>
+        <br/>
+        <br/>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+            </tr>
+            
+            {% for i in product %}
+            <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.price}}</td>
+                <td>{{i.description}}</td>
+            </tr>
+            {% endfor %}
+
+
+        </table>
+        <a href="?page=1">1 </a>
+        <a href="?page=2">2 </a>
+
+        {% if product.has_previous %}
+            <a href="?page={{product.previous_page_number}}">&laquo </a>
+            <!-- <a href="?page={{product.previous_page_number}}">Previous</a> -->
+        {% endif %}
+        Page {{product.number}} of {{product.paginator.num_pages}}
+        {% if product.has_next %}
+            <a href="?page={{product.next_page_number}}">&raquo</a>
+            <!-- <a href="?page={{product.paginator.num_pages}}">Next</a> -->
+        {% endif %}
+        <a href="{% url 'forgotpassword' %}">Forgot Password</a>
+        <form action="{% url 'uploadpic' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name='picture'>
+            <input type="submit" value="Save Image">
+        </form>
+        {% if image %}
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Image / video</th>
+                
+            </tr>
+            
+            {% for i in image %}
+            <tr>
+                <td>{{i.id}}</td>
+                {% if i.image_url.type == "image" %}
+                <td> <img src="{{i.image_url.url}}" alt="Image not found"> </td>
+                {% endif %}
+                {% if i.file.type == "video" %}
+                <td> <video src="{{i.image_url.url}}"></video> </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+
+
+        </table>
+        {% endif %}
+</body>
+</html>
